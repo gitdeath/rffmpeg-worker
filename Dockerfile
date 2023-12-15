@@ -19,7 +19,7 @@ RUN echo 'Architectures: ${DPKG_ARCHITECTURE}' >> /etc/apt/sources.list.d/jellyf
 RUN echo 'Signed-By: /etc/apt/keyrings/jellyfin.gpg' >> /etc/apt/sources.list.d/jellyfin.sources
 RUN echo 'EOF' >> /etc/apt/sources.list.d/jellyfin.sources
 
-RUN apt update && \\
+RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg
 
 RUN mkdir -p /transcodes
