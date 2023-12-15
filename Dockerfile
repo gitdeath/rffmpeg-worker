@@ -1,6 +1,8 @@
 FROM ubuntu:latest
 
-RUN apt update && apt install openssh-server nfs-common netbase jellyfin-ffmpeg6 -y
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6
+
 
 RUN mkdir -p /transcodes
 
