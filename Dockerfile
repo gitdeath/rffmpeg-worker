@@ -10,6 +10,7 @@ RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6
 
 RUN mkdir -p /transcodes
+RUN mkdir -p /root/.ssh
 
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 
