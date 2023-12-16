@@ -11,7 +11,7 @@ RUN apt update && \
 
 RUN mkdir -p /transcodes
 
-RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab"
+RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 
 RUN service ssh start
 
