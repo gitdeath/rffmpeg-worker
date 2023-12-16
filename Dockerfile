@@ -12,17 +12,18 @@ RUN apt update && \
 RUN sed -i 's;#PermitEmptyPasswords no;PermitEmptyPasswords yes;' /etc/ssh/sshd_config && \
     sed -i 's;#PasswordAuthentication yes;PasswordAuthentication yes;' /etc/ssh/sshd_config && \
     sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config 
-#    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/rffmpeg/.ssh/transcoders/authorized_keys;' /etc/ssh/sshd_config 
+    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config && \
+    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/rffmpeg/.sshtranscoders/authorized_keys;' /etc/ssh/sshd_config 
     
 
 
 RUN echo 'root:jellyfin' | chpasswd
 
 RUN mkdir -p /transcodes
-#RUN mkdir -p /config/rffmpeg/.ssh/transcoders/
-#RUN chown root /config/rffmpeg/.ssh/transcoders/
-#RUN chmod 700 /config/rffmpeg/.ssh/transcoders/
+RUN mkdir -p /config/rffmpeg/.sshtranscoders
+RUN chown root /config/rffmpeg/.sshtranscoders
+RUN chgrp root /config/rffmpeg/.sshtranscoders
+RUN chmod 700 /config/rffmpeg/.sshtranscoders
 
 
 #RUN ln -s /config/rffmpeg/.ssh /root/.ssh
