@@ -12,22 +12,22 @@ RUN apt update && \
 RUN sed -i 's;#PermitEmptyPasswords no;PermitEmptyPasswords yes;' /etc/ssh/sshd_config && \
     sed -i 's;#PasswordAuthentication yes;PasswordAuthentication yes;' /etc/ssh/sshd_config && \
     sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/.sshtranscoders/authorized_keys;' /etc/ssh/sshd_config 
+    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config 
+#    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/.sshtranscoders/authorized_keys;' /etc/ssh/sshd_config 
     
 
 
 RUN echo 'root:jellyfin' | chpasswd
 
 RUN mkdir -p /transcodes
-RUN mkdir -p /config/.sshtranscoders
-RUN chown root /config/.sshtranscoders
-RUN chgrp root /config/.sshtranscoders
-RUN chmod 700 /config/.sshtranscoders
-RUN touch /config/.sshtranscoders/authorized_keys
-RUN chmod 600 /config/.sshtranscoders/authorized_keys
+#RUN mkdir -p /config/.sshtranscoders
+#RUN chown root /config/.sshtranscoders
+#RUN chgrp root /config/.sshtranscoders
+#RUN chmod 700 /config/.sshtranscoders
+#RUN touch /config/.sshtranscoders/authorized_keys
+#RUN chmod 600 /config/.sshtranscoders/authorized_keys
 
-#RUN ln -s /config/rffmpeg/.ssh /root/.ssh
+RUN ln -s /config/rffmpeg/.ssh /root/.ssh
 
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 
