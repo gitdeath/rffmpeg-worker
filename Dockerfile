@@ -21,6 +21,9 @@ RUN echo 'root:jellyfin' | chpasswd
 
 RUN mkdir -p /transcodes
 RUN mkdir -p /config/rffmpeg/.ssh
+RUN chown root /config/rffmpeg/.ssh
+RUN chmod 700 /config/rffmpeg/.ssh
+
 
 #RUN ln -s /config/rffmpeg/.ssh /root/.ssh
 
