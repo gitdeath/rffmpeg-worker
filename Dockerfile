@@ -9,15 +9,13 @@ RUN echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$(
 RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6
 
-RUN sed -i 's;#PermitEmptyPasswords no;PermitEmptyPasswords yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#PasswordAuthentication yes;PasswordAuthentication yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config && \
-    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config 
+RUN  sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
+#    sed -i 's;#PasswordAuthentication yes;PasswordAuthentication yes;' /etc/ssh/sshd_config && \
+#    sed -i 's;#PermitEmptyPasswords no;PermitEmptyPasswords yes;' /etc/ssh/sshd_config && \
+#    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config 
 #    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/.sshtranscoders/authorized_keys;' /etc/ssh/sshd_config 
-    
 
-
-RUN echo 'root:jellyfin' | chpasswd
+#RUN echo 'root:jellyfin' | chpasswd
 
 RUN mkdir -p /transcodes
 #RUN mkdir -p /config/.sshtranscoders
