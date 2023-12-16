@@ -27,7 +27,7 @@ RUN mkdir -p /transcodes
 #RUN touch /config/.sshtranscoders/authorized_keys
 #RUN chmod 600 /config/.sshtranscoders/authorized_keys
 
-RUN ln -s /config/rffmpeg/.ssh /root/.ssh
+#RUN ln -s /config/rffmpeg/.ssh /root/.ssh
 
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 
