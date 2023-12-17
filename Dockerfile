@@ -10,12 +10,14 @@ RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
+# Make and set perms for /transcodes
 RUN mkdir -p /transcodes
+RUN chgrp users /transcodes
 # setup fstab for mount to nfs-server
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 # create transcodessh user
 
-RUN useradd -u 7001 -g users transcodessh
+RUN useradd -u 7001 -g users -m transcodessh
 
 RUN service ssh start
 
