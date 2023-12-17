@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sleep 60
+sleep 31
 mount -a
