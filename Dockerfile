@@ -22,7 +22,7 @@ HEALTHCHECK --interval=5s CMD ping -c 1 nfs-server
 EXPOSE 22
 
 # entrypoint runs mount -a to mount fstab entry above after container is started
-COPY ./entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
