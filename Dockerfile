@@ -17,7 +17,7 @@ RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc
 RUN service ssh start
 
 # ensure nfs-server is reachable without a mounted /transcodes directory this worker can't do it's job
-HEALTHCHECK --interval=5s -timeout=20s CMD ping -c 1 nfs-server
+HEALTHCHECK --interval=5s --timeout=20s CMD ping -c 1 nfs-server
 
 EXPOSE 22
 
