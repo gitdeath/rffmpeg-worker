@@ -32,5 +32,7 @@ RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc
 RUN service ssh start
 
 EXPOSE 22
+COPY ./entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/usr/sbin/sshd","-D"]
