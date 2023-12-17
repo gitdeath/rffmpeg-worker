@@ -9,10 +9,13 @@ RUN echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$(
 RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping
 # allow root SSH
-RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
+#RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 RUN mkdir -p /transcodes
 # setup fstab for mount to nfs-server
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
+# create transcodessh user
+
+RUN useradd -u 7001 -g users transcodessh
 
 RUN service ssh start
 
