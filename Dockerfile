@@ -1,38 +1,29 @@
 FROM debian:bullseye
+# install requirements for adding jellyfin repo
 RUN apt update && \
     apt -y install curl gnupg
-    
+# add jellyfin repo
 RUN curl -fsSL https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/jellyfin.gpg
-
 RUN echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" >> /etc/apt/sources.list.d/jellyfin.list
-
+# install requirements to perform transcoding
 RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6
-
-RUN  sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
-#    sed -i 's;#PasswordAuthentication yes;PasswordAuthentication yes;' /etc/ssh/sshd_config && \
-#    sed -i 's;#PermitEmptyPasswords no;PermitEmptyPasswords yes;' /etc/ssh/sshd_config && \
-#    sed -i 's;#PubkeyAuthentication yes;PubkeyAuthentication yes;' /etc/ssh/sshd_config 
-#    sed -i 's;#AuthorizedKeysFile.*;AuthorizedKeysFile /config/.sshtranscoders/authorized_keys;' /etc/ssh/sshd_config 
-
-#RUN echo 'root:jellyfin' | chpasswd
-
+# allow root SSH
+RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 RUN mkdir -p /transcodes
-#RUN mkdir -p /config/.sshtranscoders
-#RUN chown root /config/.sshtranscoders
-#RUN chgrp root /config/.sshtranscoders
-#RUN chmod 700 /config/.sshtranscoders
-#RUN touch /config/.sshtranscoders/authorized_keys
-#RUN chmod 600 /config/.sshtranscoders/authorized_keys
-
-#RUN ln -s /config/rffmpeg/.ssh /root/.ssh
-
+# setup fstab for mount to nfs-server
 RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 
 RUN service ssh start
 
-EXPOSE 22
-COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# ensure nfs-server is reachable without a mounted /transcodes directory this worker can't do it's job
+HEALTHCHECK --interval=5s CMD ping -c 1 nfs-server
 
+EXPOSE 22
+
+# entrypoint runs mount -a to mount fstab entry above after container is started
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/sshd","-D"]
