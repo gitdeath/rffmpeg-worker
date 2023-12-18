@@ -20,7 +20,9 @@ RUN echo 'nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc
 RUN useradd -u 7001 -g users -m transcodessh && \
     #groupadd -g 106 render && \
     chown -R transcodessh /usr/lib/jellyfin-ffmpeg && \
-    usermod -a -G video transcodessh
+    usermod -a -G video,users transcodessh
+    
+
 
 RUN service ssh start
 
