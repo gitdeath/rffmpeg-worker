@@ -6,7 +6,7 @@ sleep 21
 # This is required, because unlike video the render group is different on each machine
 renderD128_gid=$(stat -c "%g" /dev/dri/renderD128)
 groupadd --gid "$renderD128_gid" render
-usermod -a -G video transcodessh
+usermod -a -G render transcodessh
 
 # Attempt to mount file systems from /etc/fstab
 mount -a
