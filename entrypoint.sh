@@ -3,7 +3,7 @@
 sleep 21
 
 # Add transcodessh user to the group that owns renderD128
-# This is required, because unlike video the render group is different on each machine
+# This is required, because unlike video the render group is different on each machine and often isn't setup
 renderD128_gid=$(stat -c "%g" /dev/dri/renderD128)
 groupadd --gid "$renderD128_gid" render
 usermod -a -G render transcodessh
