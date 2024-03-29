@@ -7,7 +7,7 @@ RUN curl -fsSL https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | gpg --de
 RUN echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" >> /etc/apt/sources.list.d/jellyfin.list
 # install requirements to perform transcoding, including OpenCL intel-opencl-icd
 RUN apt update && \
-    apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping intel-opencl-icd
+    apt install -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping intel-opencl-icd
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 # Make and set perms for /transcodes
