@@ -1,4 +1,7 @@
 #!/bin/bash
+
+
+#Appears to require install after container build.
 apt update
 apt install -y intel-opencl-icd
 
