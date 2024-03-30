@@ -1,4 +1,7 @@
 #!/bin/bash
+apt update
+apt install -y intel-opencl-icd
+
 #sleeps to ensure healtcheck timeout didn't occur
 sleep 21
 
