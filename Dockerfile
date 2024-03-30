@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 # install requirements for adding jellyfin repo
 RUN apt update && \
     apt -y install curl gnupg
