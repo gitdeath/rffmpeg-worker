@@ -2,8 +2,8 @@
 
 
 #Appears to require install after container build.
-apt update
-apt install -y intel-opencl-icd
+#apt update
+#apt install -y intel-opencl-icd
 
 #sleeps to ensure healtcheck timeout didn't occur
 sleep 21
