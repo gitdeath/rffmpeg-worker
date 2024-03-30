@@ -7,7 +7,8 @@ RUN curl -fsSL https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | gpg --de
 RUN echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" >> /etc/apt/sources.list.d/jellyfin.list
 # install requirements to perform transcoding, including OpenCL intel-opencl-icd
 RUN apt update && \
-    apt install -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping intel-opencl-icd
+    apt install --no-install-recommends --no-install-suggests -y openssh-server nfs-common netbase jellyfin-ffmpeg6 iputils-ping && \
+    apt install -y intel-opencl-icd
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 # Make and set perms for /transcodes
@@ -23,13 +24,11 @@ RUN useradd -u 7001 -g users -m transcodessh && \
 
     chown -R transcodessh /usr/lib/jellyfin-ffmpeg && \
     usermod -a -G video,users transcodessh
-    
-
 
 RUN service ssh start
 
 # ensure nfs-server is reachable without a mounted /transcodes directory this worker can't do it's job
-#HEALTHCHECK --interval=5s --timeout=20s CMD ping -c 1 jellyfin-nfs-server
+HEALTHCHECK --interval=5s --timeout=20s CMD ping -c 1 jellyfin-nfs-server
 
 EXPOSE 22
 
