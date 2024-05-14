@@ -16,6 +16,7 @@ RUN mkdir -p /transcodes
 RUN chgrp users /transcodes
 # setup fstab for mount to nfs-server
 RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
+RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 
 # create transcodessh user with proper permsvim 
 RUN useradd -u 7001 -g users -m transcodessh && \
