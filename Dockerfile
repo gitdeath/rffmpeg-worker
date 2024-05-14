@@ -23,8 +23,6 @@ RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 
 RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 RUN echo 'jellyfin-nfs-server:/cache /cache nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 
-#this prevents files/subdirectories from being created that are unreachable by remote rffmpeg workers without root (IE. ensures 'users' group has access)
-RUN umask 0002
 
 # create transcodessh user with proper permsvim 
 RUN useradd -u 7001 -g users -m transcodessh && \
