@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#this prevents files/subdirectories from being created that are unreachable by remote rffmpeg workers without root (IE. ensures 'users' group has access)
+RUN umask 0002
 
 #sleeps to ensure healtcheck timeout didn't occur
 sleep 21
