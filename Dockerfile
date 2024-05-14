@@ -11,9 +11,13 @@ RUN apt update && \
     apt install -y intel-opencl-icd
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
-# Make and set perms for /transcodes
-RUN mkdir -p /transcodes
-RUN chgrp users /transcodes
+# Make and set perms for /transcodes, /config, and /cache
+RUN mkdir -p /transcodes && \
+    chgrp users /transcodes
+RUN mkdir -p /cache && \
+    chgrp users /cache
+RUN mkdir -p /config && \
+    chgrp users /config
 # setup fstab for mount to nfs-server
 RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
