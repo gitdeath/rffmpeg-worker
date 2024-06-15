@@ -11,6 +11,7 @@ RUN apt update && \
     apt install -y intel-opencl-icd
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
+
 # Make and set perms for /transcodes, /config, and /cache
 RUN mkdir -p /transcodes && \
     chgrp users /transcodes
@@ -23,12 +24,10 @@ RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 
 RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 RUN echo 'jellyfin-nfs-server:/cache /cache nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 
-
-# create transcodessh user with proper permsvim 
+# create transcodessh user with proper perms
 RUN useradd -u 7001 -g users -m transcodessh && \
     #groupadd -g 106 render && \
     usermod --shell /bin/bash transcodessh && \
-
     chown -R transcodessh /usr/lib/jellyfin-ffmpeg && \
     usermod -a -G video,users transcodessh
 
