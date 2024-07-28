@@ -1,13 +1,12 @@
 #!/bin/bash
 
-#this prevents files/subdirectories from being created that are unreachable by remote rffmpeg workers without root (IE. ensures 'users' group has access)
-#umask 0002
+# Prevent files/subdirectories from being created that are unreachable by remote rffmpeg workers
+# umask 0002
 
-#sleeps to ensure healtcheck timeout didn't occur
+# Sleep to ensure healthcheck timeout didn't occur
 sleep 21
 
 # Add transcodessh user to the group that owns renderD128
-# This is required, because unlike video the render group is different on each machine and often isn't setup
 renderD128_gid=$(stat -c "%g" /dev/dri/renderD128)
 groupadd --gid "$renderD128_gid" render
 usermod -a -G render transcodessh
@@ -17,11 +16,24 @@ mount -a
 
 # Check the exit status of the mount command
 if [ $? -eq 0 ]; then
-    # Success CMD from Dockerfile (SSHD)
     echo "Success: File systems mounted successfully."
-    exec "$@"
 else
-# Exits the container
     echo "Error: Failed to mount file systems. Exiting."
     exit 1
 fi
+
+# Start the sshd service and capture its PID
+/usr/sbin/sshd -D &
+sshd_pid=$!
+
+# Run df -h in a loop every 15 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
+while true; do
+  timeout 5 df -h
+  if [ $? -eq 124 ]; then
+    echo "df -h command timed out. Terminating sshd and exiting container."
+    kill "$sshd_pid"
+    wait "$sshd_pid"  # Wait for sshd to terminate
+    exit 1
+  fi
+  sleep 15
+done
