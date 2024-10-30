@@ -21,8 +21,7 @@ RUN apt update && \
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 
-#set umask to enable tmp file creation with write for users group
-RUN echo 'umask 0002' >> /etc/profile
+
 
 # Make and set perms for /tmp/jellyfin (10.10+) /transcodes, /config, and /cache
 RUN mkdir -p /transcodes && \
@@ -45,6 +44,9 @@ RUN useradd -u 7001 -g users -m transcodessh && \
     usermod --shell /bin/bash transcodessh && \
     chown -R transcodessh /usr/lib/jellyfin-ffmpeg && \
     usermod -a -G video,users transcodessh
+
+#set umask to enable tmp file creation with write for users group
+RUN echo 'umask 0002' >> /home/transcodessh/.bashrc
 
 RUN service ssh start
 
