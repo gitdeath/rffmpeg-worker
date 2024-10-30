@@ -21,6 +21,9 @@ RUN apt update && \
 # allow root SSH
 #RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 
+#set umask to enable tmp file creation with write for users group
+RUN echo 'umask 0002' >> /etc/profile
+
 # Make and set perms for /tmp/jellyfin (10.10+) /transcodes, /config, and /cache
 RUN mkdir -p /transcodes && \
     chgrp users /transcodes
