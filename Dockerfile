@@ -19,7 +19,7 @@ RUN apt update && \
     apt install -y openssh-server nfs-common netbase jellyfin-ffmpeg7 iputils-ping fontconfig && \
     apt install -y intel-opencl-icd
 # allow root SSH
-#RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
+RUN sed -i 's;#PermitRootLogin prohibit-password;PermitRootLogin yes;' /etc/ssh/sshd_config
 
 
 
