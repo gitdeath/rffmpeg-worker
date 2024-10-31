@@ -46,7 +46,7 @@ RUN useradd -u 7001 -g users -m transcodessh && \
     usermod -a -G video,users transcodessh
 
 #set umask to enable tmp file creation with write for users group
-RUN echo 'umask 0002' >> /home/transcodessh/.bashrc
+#RUN echo 'umask 0002' >> /home/transcodessh/.bashrc
 
 RUN service ssh start
 
