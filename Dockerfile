@@ -36,7 +36,7 @@ RUN mkdir -p /tmp/jellyfin && \
 RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
 RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 RUN echo 'jellyfin-nfs-server:/cache /cache nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
-RUN echo 'jellyfin-nfs-server:/tmp/jellyfin /tmp/jellyfin nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
+RUN echo 'jellyfin-nfs-server:/tmp/jellyfin /tmp/jellyfin nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 
 # create transcodessh user with proper perms
 RUN useradd -u 7001 -g users -m transcodessh && \
@@ -46,7 +46,7 @@ RUN useradd -u 7001 -g users -m transcodessh && \
     usermod -a -G video,users transcodessh
 
 #set umask to enable tmp file creation with write for users group
-#RUN echo 'umask 0002' >> /home/transcodessh/.bashrc
+RUN echo 'umask 0002' >> /home/transcodessh/.bashrc
 
 RUN service ssh start
 
