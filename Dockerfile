@@ -30,13 +30,11 @@ RUN mkdir -p /cache && \
     chgrp users /cache
 RUN mkdir -p /config && \
     chgrp users /config
-RUN mkdir -p /tmp/jellyfin && \
-    chgrp users /tmp/jellyfin
+
 # setup fstab for mount to nfs-server
 RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
-RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
+#RUN echo 'jellyfin-nfs-server:/config /config nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab 
 RUN echo 'jellyfin-nfs-server:/cache /cache nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
-#RUN echo 'jellyfin-nfs-server:/tmp/jellyfin /tmp/jellyfin nfs rw,nolock,actimeo=1 0 0' >> /etc/fstab
 
 # create transcodessh user with proper perms
 RUN useradd -u 7001 -g users -m transcodessh && \
