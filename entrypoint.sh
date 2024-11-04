@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prevent files/subdirectories from being created that are unreachable by remote rffmpeg workers
-# umask 0002
+umask 0002
 
 # Sleep to ensure healthcheck timeout didn't occur
 sleep 21
