@@ -22,6 +22,9 @@ else
     exit 1
 fi
 
+# Trap SIGTERM and SIGINT signals to allow for graceful shutdown
+trap "echo 'Shutting down...'; exit 0" SIGTERM SIGINT
+
 # Start the sshd service and capture its PID
 /usr/sbin/sshd -D &
 sshd_pid=$!
@@ -31,8 +34,6 @@ while true; do
   timeout 5 df -h > /dev/null 2>&1
   if [ $? -eq 124 ]; then
     echo "df -h command timed out. Terminating exiting container."
-    #kill "$sshd_pid" - not required as entrypoint.sh is PID1
-    #wait "$sshd_pid"  # Wait for sshd to terminate
     exit 1
   fi
   sleep 15
