@@ -45,7 +45,7 @@ fi
 
 # Run df -h in a loop every 15 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
 while true; do
-  timeout 5 df -h > /dev/null 2>&1
+  timeout 10 df -h > /dev/null 2>&1
   if [ $? -eq 124 ]; then
     echo "df -h command timed out. Terminating exiting container."
     exit 1
