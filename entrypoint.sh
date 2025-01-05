@@ -11,6 +11,7 @@ if [ -e /dev/dri/renderD128 ]; then
     renderD128_gid=$(stat -c "%g" /dev/dri/renderD128)
     groupadd --gid "$renderD128_gid" render
     usermod -a -G render transcodessh
+    echo "transcodessh user was added to render group ($renderD128_gid)"
 else
     echo "Warning: /dev/dri/renderD128 not found. Skipping GPU group setup."
 fi
