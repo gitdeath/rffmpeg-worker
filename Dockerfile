@@ -21,7 +21,7 @@ RUN apt update && \
 
 
 
-# Make and set perms for /tmp/jellyfin (10.10+) /transcodes, /config, and /cache
+# Make and set perms /transcodes, /config, and /cache
 RUN mkdir -p /transcodes && \
     chgrp users /transcodes
 RUN mkdir -p /cache && \
