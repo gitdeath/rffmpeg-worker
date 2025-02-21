@@ -43,6 +43,18 @@ if ! kill -0 $sshd_pid 2>/dev/null; then
     fi
 fi
 
+# Background process: Attempt to update jellyfin-ffmpeg7 every 25 hours
+(
+    while true; do
+        if ! pgrep -x "ffmpeg" > /dev/null; then
+            echo "Updating jellyfin-ffmpeg7..."
+            sudo apt update && sudo apt install --only-upgrade jellyfin-ffmpeg7 -y
+        else
+            echo "ffmpeg is running. Skipping update."
+        fi
+        sleep 90000  # Sleep for 25 hours (25 * 3600 seconds)
+    done
+) &
 
 # Run df -h in a loop every 15 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
 while true; do
