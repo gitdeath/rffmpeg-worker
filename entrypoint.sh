@@ -48,7 +48,7 @@ fi
     while true; do
         if ! pgrep -x "ffmpeg" > /dev/null; then
             echo "Updating jellyfin-ffmpeg7..."
-            apt update && apt install --only-upgrade jellyfin-ffmpeg7 -y
+            apt update >/dev/null 2>&1 && apt install --only-upgrade jellyfin-ffmpeg7 -y >/dev/null 2>&1
         else
             echo "ffmpeg is running. Skipping update."
         fi
