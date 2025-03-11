@@ -66,12 +66,25 @@ fi
 ) &
 
 # Run df -h in a loop every 15 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
+FAIL_COUNT=0
+MAX_FAILS=5
+SLEEP_INTERVAL=5
+
 while true; do
-  timeout 3 df -h > /dev/null 2>&1
+  timeout 2 df -h > /dev/null 2>&1
   if [ $? -eq 124 ]; then
-    log "df -h command timed out. Terminating container."
-    dmesg | tail -20
-    exit 1
+    ((FAIL_COUNT++))
+    log "WARNING: 'df -h' timed out. Consecutive failures: $FAIL_COUNT/$MAX_FAILS"
+    if [ $FAIL_COUNT -ge $MAX_FAILS ]; then
+      log "CRITICAL: NFS unresponsive for $MAX_FAILS consecutive attempts. Terminating container."
+      exit 1
+      FAIL_COUNT=0
+    fi
+  else
+    if [ $FAIL_COUNT -gt 0 ]; then
+      log "INFO: NFS recovered after $FAIL_COUNT failed attempts."
+    fi
+    FAIL_COUNT=0
   fi
-  sleep 15
+  sleep $SLEEP_INTERVAL
 done
