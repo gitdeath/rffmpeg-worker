@@ -77,6 +77,7 @@ while true; do
     log "WARNING: 'df -h' timed out. Consecutive failures: $FAIL_COUNT/$MAX_FAILS"
     if [ $FAIL_COUNT -ge $MAX_FAILS ]; then
       log "CRITICAL: NFS unresponsive for $MAX_FAILS consecutive attempts. Terminating container."
+      dmesg | tail -40
       exit 1
       FAIL_COUNT=0
     fi
