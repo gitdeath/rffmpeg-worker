@@ -65,7 +65,7 @@ fi
     done
 ) &
 
-# Run df -h in a loop every 15 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
+# Run df -h in a loop every 5 seconds - this stops the container if the NFS server share is no longer available (df -h would hang.) 
 FAIL_COUNT=0
 MAX_FAILS=5
 SLEEP_INTERVAL=5
