@@ -79,7 +79,6 @@ while true; do
       log "CRITICAL: NFS unresponsive for $MAX_FAILS consecutive attempts. Terminating container."
       dmesg | tail -40
       exit 1
-      FAIL_COUNT=0
     fi
   else
     if [ $FAIL_COUNT -gt 0 ]; then
