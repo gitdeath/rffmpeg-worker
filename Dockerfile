@@ -21,13 +21,15 @@ RUN apt update && \
 
 
 
-# Make and set perms /transcodes, /config, and /cache
+# Make and set perms /transcodes, /config, /livetv, and /cache
 RUN mkdir -p /transcodes && \
     chgrp users /transcodes
 RUN mkdir -p /cache && \
     chgrp users /cache
 RUN mkdir -p /config && \
     chgrp users /config
+RUN mkdir -p /livetv && \
+    chgrp users /livetv
 
 # setup fstab for mount to nfs-server
 RUN echo 'jellyfin-nfs-server:/transcodes /transcodes nfs rw,nolock,actimeo=1 0 0' > /etc/fstab
