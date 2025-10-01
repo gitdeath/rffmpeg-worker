@@ -73,6 +73,7 @@ trap "log 'Received shutdown signal, stopping sshd...'; pkill -f /usr/sbin/sshd;
 log "Starting SSHD..."
 # Create the directory for sshd privilege separation
 mkdir -p /run/sshd
+chmod 700 /run/sshd
 # Start the sshd service as the main container process.
 # The -e flag sends logs to stderr, which is useful for container logging.
 /usr/sbin/sshd -D -e &
