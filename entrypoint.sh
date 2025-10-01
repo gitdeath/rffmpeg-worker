@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+# Workflow trigger
 
 # Prevent files/subdirectories from being created that are unreachable by remote rffmpeg workers
 umask 002
