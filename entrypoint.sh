@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-# Workflow trigger
 
 # Prevent files/subdirectories from being created that are unreachable by remote rffmpeg workers
 umask 002
@@ -72,10 +71,10 @@ log "Success: File systems mounted successfully."
 trap "log 'Received shutdown signal, stopping sshd...'; pkill -f /usr/sbin/sshd; wait; exit 0" SIGTERM SIGINT
 
 log "Starting SSHD..."
-# Start the sshd service in the foreground. It will be the main process.
+# Start the sshd service as the main container process.
 # The -e flag sends logs to stderr, which is useful for container logging.
 /usr/sbin/sshd -D -e &
 
-# Wait for sshd to exit. This will happen if it's killed by the health check or an external signal.
+# Wait for the sshd process to exit. This script will terminate when sshd does.
 wait $!
 log "SSHD has stopped. Exiting container."
