@@ -71,6 +71,8 @@ log "Success: File systems mounted successfully."
 trap "log 'Received shutdown signal, stopping sshd...'; pkill -f /usr/sbin/sshd; wait; exit 0" SIGTERM SIGINT
 
 log "Starting SSHD..."
+# Create the directory for sshd privilege separation
+mkdir -p /run/sshd
 # Start the sshd service as the main container process.
 # The -e flag sends logs to stderr, which is useful for container logging.
 /usr/sbin/sshd -D -e &
